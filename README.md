@@ -26,21 +26,21 @@ Vehicle breakdowns on expressways and urban corridors create acute safety hazard
 
 ## Core Features & System Capabilities
 
-### 🚗 Stranded Motorist Portal
+### Stranded Motorist Portal
 - **Rapid Emergency Intake**: Multi-step incident logging with breakdown classification (Flat Tire, Dead Battery, Engine Stalled, Towing Required, Fuel Depleted, Lockout, and Mechanical Failure).
 - **Location Pinpointing**: Landmark addressing coupled with GPS coordinate pinning (`lat`, `lng`).
 - **Vehicle Profiles**: Pre-filled motorist vehicle data (make, model, license plate) attached to each dispatch call.
 - **Real-Time Incident Tracker**: Linear operational progress visualization (`Logged` → `Dispatched` → `On Site` → `Resolved`).
 - **Private Request History**: Drivers inspect and manage **only their own** service calls, with cancellation capability while requests remain pending.
 
-### 🛠️ Service Provider Command Terminal
+### Service Provider Command Terminal
 - **Proximity Dispatch Queue**: Real-time pool of incoming unassigned breakdown calls sorted dynamically by Haversine distance to the provider's base location.
 - **One-Click Incident Claiming**: Race-condition-free claiming that atomically marks the provider as busy (`isAvailable: false`) and assigns the call.
 - **Scoped Status Progression**: Providers can update **only the requests specifically assigned to them**, progressing calls through enforced lifecycle stages (`ASSIGNED` → `IN_PROGRESS` → `COMPLETED`).
 - **Duty Availability Switch**: Real-time operational toggle between **Available (On Duty)** and **Offline/Busy**.
 - **Depot & Base Location Management**: Dynamic GPS coordinate and depot address configuration.
 
-### 🛡️ Enterprise Security & Access Guards
+### Enterprise Security & Access Guards
 - **Stateless JWT Authentication**: Bearer token issuance with cryptographically signed payloads.
 - **Role-Based Access Control (RBAC)**: Distinct permissions for `driver` vs `provider` accounts (`requireRole`).
 - **Resource Ownership Guards**: `requireDriverOwnership` guarantees motorists cannot view or manipulate other drivers' incidents; `requireAssignedProvider` ensures unauthorized technicians cannot tamper with other units' active calls.
