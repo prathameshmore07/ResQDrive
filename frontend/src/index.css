@@ -1,0 +1,549 @@
+/* ==========================================================================
+   RESQDRIVE DESIGN SYSTEM
+   Apple / Notion / Linear / Stripe Principles
+   Clear hierarchy, generous whitespace, familiar controls, plain human language.
+   ========================================================================== */
+
+:root {
+  /* Typography */
+  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+
+  /* Sophisticated Consumer Light Palette (Default) */
+  --bg-page: #FAFAF8;
+  --surface: #FFFFFF;
+  --surface-secondary: #F5F5F2;
+  --surface-hover: #EFEFEA;
+  --border: #E7E7E2;
+  --border-strong: #D5D5CE;
+
+  /* Text */
+  --text-primary: #171717;
+  --text-secondary: #6B6B66;
+  --text-muted: #8A8A84;
+
+  /* Semantic Colors - Used Intentionally */
+  --brand-amber: #F5A623;
+  --brand-dark: #171717;
+  --brand-dark-hover: #262626;
+  --success: #1F9D68;
+  --success-subtle: #EBF7F1;
+  --error: #D64545;
+  --error-subtle: #FDF2F2;
+  --info: #3978D8;
+  --info-subtle: #EEF4FD;
+  --warning: #F5A623;
+  --warning-subtle: #FEF7EC;
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 80px;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Apple-style Soft Depth */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+
+  /* Transitions */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 160ms var(--ease);
+  --transition-normal: 220ms var(--ease);
+}
+
+/* Operational Dark Mode (for Provider Workstation) */
+.provider-theme-dark {
+  --bg-page: #0B0C0D;
+  --surface: #111315;
+  --surface-secondary: #17191C;
+  --surface-hover: #1E2125;
+  --border: #24272B;
+  --border-strong: #33383F;
+
+  --text-primary: #F5F5F2;
+  --text-secondary: #A1A5AA;
+  --text-muted: #6B7077;
+
+  --brand-amber: #F5A623;
+  --brand-dark: #FFFFFF;
+  --brand-dark-hover: #E5E5E5;
+  --success: #28B77A;
+  --success-subtle: rgba(40, 183, 122, 0.12);
+  --error: #E35D6A;
+  --error-subtle: rgba(227, 93, 106, 0.12);
+  --info: #4C8DFF;
+  --info-subtle: rgba(76, 141, 255, 0.12);
+  --warning: #F5A623;
+  --warning-subtle: rgba(245, 166, 35, 0.12);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.6);
+}
+
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  color: inherit;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
+.font-hero {
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+}
+
+.font-page-title {
+  font-size: clamp(26px, 3.5vw, 36px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.font-section-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+
+.font-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.font-body {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.font-secondary {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   LAYOUT CONTAINERS
+   ========================================================================== */
+.container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+.container-narrow {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+.container-wide {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+/* ==========================================================================
+   BUTTONS
+   Clean, Apple-like button hierarchy with one clear primary action per view
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: var(--radius-sm);
+  padding: 0 16px;
+  height: 40px;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Primary Button (Clean light neutral per user reference: #F3F3F3, dark text #0D0D0D, subtle border #E2E2E2) */
+.btn-primary {
+  background-color: #F3F3F3;
+  color: #0D0D0D;
+  border: 1px solid #E2E2E2;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: #E8E8E8;
+  border-color: #D4D4D4;
+  color: #000000;
+}
+
+/* Navigation / Sidebar Tabs (Reference: pill shape, light neutral bg on active) */
+.nav-tab-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.nav-tab-btn:hover {
+  background-color: #F7F7F7;
+  color: #0D0D0D;
+}
+
+.nav-tab-btn.active {
+  background-color: #F3F3F3;
+  color: #0D0D0D;
+  border-color: #E2E2E2;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* Filter Pills */
+.filter-pill {
+  padding: 6px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background-color: #FFFFFF;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-pill:hover {
+  background-color: #F7F7F7;
+  color: #0D0D0D;
+  border-color: #D1D5DB;
+}
+
+.filter-pill.active {
+  background-color: #F3F3F3;
+  color: #0D0D0D;
+  border-color: #E2E2E2;
+  font-weight: 600;
+}
+
+/* Brand Accent Button (Amber - for emergency help calls only) */
+.btn-accent {
+  background-color: var(--brand-amber);
+  color: #171717;
+  font-weight: 600;
+  border-color: var(--brand-amber);
+  border-radius: 10px;
+}
+.btn-accent:hover:not(:disabled) {
+  background-color: #E29615;
+  border-color: #E29615;
+}
+
+/* Secondary Neutral Button */
+.btn-secondary {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--surface-secondary);
+  border-color: var(--border-strong);
+}
+
+/* Ghost Button */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-secondary);
+}
+.btn-ghost:hover:not(:disabled) {
+  background-color: var(--surface-secondary);
+  color: var(--text-primary);
+}
+
+/* Destructive Button */
+.btn-danger {
+  background-color: var(--error-subtle);
+  color: var(--error);
+  border-color: transparent;
+}
+.btn-danger:hover:not(:disabled) {
+  background-color: #FBDDDD;
+}
+
+/* Button Sizes */
+.btn-lg {
+  height: 48px;
+  padding: 0 22px;
+  font-size: 15px;
+  border-radius: var(--radius-md);
+}
+
+.btn-sm {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   INPUTS & FORMS
+   ========================================================================== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.form-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14.5px;
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--text-primary);
+  box-shadow: 0 0 0 1px var(--text-primary);
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+textarea.form-input {
+  height: auto;
+  min-height: 84px;
+  padding: 10px 14px;
+  resize: vertical;
+}
+
+/* ==========================================================================
+   CARD & CONTENT BLOCKS
+   Less UI chrome, more content. Subtle borders and soft shadows.
+   ========================================================================== */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-interactive {
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+.card-interactive:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+/* ==========================================================================
+   STATUS BADGES
+   Clean, understated semantic pills
+   ========================================================================== */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.status-badge-green {
+  background-color: var(--success-subtle);
+  color: var(--success);
+}
+
+.status-badge-amber {
+  background-color: var(--warning-subtle);
+  color: #B4730A;
+}
+
+.status-badge-blue {
+  background-color: var(--info-subtle);
+  color: var(--info);
+}
+
+.status-badge-red {
+  background-color: var(--error-subtle);
+  color: var(--error);
+}
+
+.status-badge-gray {
+  background-color: var(--surface-secondary);
+  color: var(--text-secondary);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* Pulse indicator for live actions */
+@keyframes pulseDot {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+.status-dot-pulse {
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   MAP CONTAINER
+   Apple Maps-style clean frame
+   ========================================================================== */
+.map-viewport {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background-color: #E8ECEF;
+}
+
+/* MapLibre popup and attribution overrides for clean styling */
+.maplibregl-ctrl-attrib {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+}
+
+/* ==========================================================================
+   HERO TWO-COLUMN & MAP LAYOUT
+   ========================================================================== */
+.hero-two-column {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+  gap: 48px;
+  align-items: center;
+}
+
+.map-viewport-flush {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #E8ECEF;
+}
+
+@media (max-width: 960px) {
+  .hero-two-column {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE UTILITIES
+   ========================================================================== */
+@media (max-width: 768px) {
+  .container, .container-narrow, .container-wide {
+    padding: 0 var(--space-4);
+  }
+}

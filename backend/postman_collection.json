@@ -1,0 +1,258 @@
+{
+  "info": {
+    "_postman_id": "roadside-assistance-postman-2026",
+    "name": "Roadside Assistance API - ResQDrive",
+    "description": "Complete Postman collection for testing the Roadside Assistance Dispatch & Tracking REST API. Includes Driver creation, Auto-dispatch to nearest provider, Ownership & Role authorization, and Provider status workflow transitions.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/", "host": ["{{baseUrl}}"], "path": [""] }
+          }
+        },
+        {
+          "name": "Register Driver",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Vikram Deshmukh\",\n  \"email\": \"vikram@driver.com\",\n  \"password\": \"password123\",\n  \"phone\": \"+91 9822012345\",\n  \"role\": \"driver\",\n  \"vehicle\": {\n    \"make\": \"Tata\",\n    \"model\": \"Harrier\",\n    \"licensePlate\": \"MH-46-XX-0001\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/register", "host": ["{{baseUrl}}"], "path": ["api", "auth", "register"] }
+          }
+        },
+        {
+          "name": "Login Driver",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"rahul@driver.com\",\n  \"password\": \"password123\",\n  \"role\": \"driver\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] }
+          }
+        },
+        {
+          "name": "Login Provider",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"apex@provider.com\",\n  \"password\": \"password123\",\n  \"role\": \"provider\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] }
+          }
+        },
+        {
+          "name": "Get Authenticated User (Me)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/auth/me", "host": ["{{baseUrl}}"], "path": ["api", "auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Assistance Requests (Driver)",
+      "item": [
+        {
+          "name": "Create Assistance Request (Pending Queue)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{driverToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"issueType\": \"FLAT_TIRE\",\n  \"location\": {\n    \"address\": \"Sion-Panvel Highway near Kharghar Toll Plaza\",\n    \"city\": \"Navi Mumbai\",\n    \"lat\": 19.0337,\n    \"lng\": 73.0645\n  },\n  \"description\": \"Punctured tyre, spare tyre available in boot.\",\n  \"vehicleDetails\": {\n    \"make\": \"Tata\",\n    \"model\": \"Harrier\",\n    \"licensePlate\": \"MH-46-AZ-9999\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/requests", "host": ["{{baseUrl}}"], "path": ["api", "requests"] }
+          }
+        },
+        {
+          "name": "Create Assistance Request (Auto Dispatch Nearest)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{driverToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"issueType\": \"BATTERY_DEAD\",\n  \"location\": {\n    \"address\": \"Sector 4, Kharghar\",\n    \"city\": \"Navi Mumbai\",\n    \"lat\": 19.0337,\n    \"lng\": 73.0645\n  },\n  \"description\": \"Car battery dead, need jumpstart.\",\n  \"autoDispatch\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/requests", "host": ["{{baseUrl}}"], "path": ["api", "requests"] }
+          }
+        },
+        {
+          "name": "Get My Driver Requests (Tracking)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{driverToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/requests/my", "host": ["{{baseUrl}}"], "path": ["api", "requests", "my"] }
+          }
+        },
+        {
+          "name": "Get Request By ID (Ownership Protected)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{driverToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/requests/{{requestId}}", "host": ["{{baseUrl}}"], "path": ["api", "requests", "{{requestId}}"] }
+          }
+        },
+        {
+          "name": "Dispatch Pending Request to Nearest Provider",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{driverToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/requests/{{requestId}}/dispatch", "host": ["{{baseUrl}}"], "path": ["api", "requests", "{{requestId}}", "dispatch"] }
+          }
+        },
+        {
+          "name": "Cancel Pending Request",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{driverToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/requests/{{requestId}}", "host": ["{{baseUrl}}"], "path": ["api", "requests", "{{requestId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Assistance Requests (Provider)",
+      "item": [
+        {
+          "name": "Get My Assigned Requests",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{providerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/requests/my", "host": ["{{baseUrl}}"], "path": ["api", "requests", "my"] }
+          }
+        },
+        {
+          "name": "View Pending Queue (Sorted by Distance)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{providerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/requests/pending", "host": ["{{baseUrl}}"], "path": ["api", "requests", "pending"] }
+          }
+        },
+        {
+          "name": "Accept / Claim Pending Request",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{providerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/requests/{{requestId}}/accept", "host": ["{{baseUrl}}"], "path": ["api", "requests", "{{requestId}}", "accept"] }
+          }
+        },
+        {
+          "name": "Update Status to IN_PROGRESS (Assigned Provider Only)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{providerToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"IN_PROGRESS\",\n  \"note\": \"Technician arrived on site and started diagnosis.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/requests/{{requestId}}/status", "host": ["{{baseUrl}}"], "path": ["api", "requests", "{{requestId}}", "status"] }
+          }
+        },
+        {
+          "name": "Update Status to COMPLETED (Assigned Provider Only)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{providerToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"COMPLETED\",\n  \"note\": \"Tyre puncture repaired and inflated to 33 PSI. Job complete.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/requests/{{requestId}}/status", "host": ["{{baseUrl}}"], "path": ["api", "requests", "{{requestId}}", "status"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Provider Management",
+      "item": [
+        {
+          "name": "Get Available Providers List",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/providers/available", "host": ["{{baseUrl}}"], "path": ["api", "providers", "available"] }
+          }
+        },
+        {
+          "name": "Toggle Provider Availability",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{providerToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isAvailable\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/providers/availability", "host": ["{{baseUrl}}"], "path": ["api", "providers", "availability"] }
+          }
+        },
+        {
+          "name": "Update Provider Location",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{providerToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"address\": \"Kharghar Highway Hub, Sector 4, Kharghar, Navi Mumbai\",\n  \"lat\": 19.0337,\n  \"lng\": 73.0645\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/providers/location", "host": ["{{baseUrl}}"], "path": ["api", "providers", "location"] }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5001"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "driverToken",
+      "value": ""
+    },
+    {
+      "key": "providerToken",
+      "value": ""
+    },
+    {
+      "key": "requestId",
+      "value": ""
+    }
+  ]
+}

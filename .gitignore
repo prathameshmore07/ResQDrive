@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment Variables & Sensitive Secrets (Do NOT push to Git)
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+*.env
+*.env.local
+
+# Database Seeding Script (Confidential / Mock Data)
+seed.js
+backend/seed.js
+
+# Production Build Outputs
+dist/
+dist-ssr/
+build/
+*/dist/
+
+# Application & Package Manager Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS Generated Files
+.DS_Store
+*/.DS_Store
+Thumbs.db
+
+# IDE & Editor Configurations
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# Temporary & Cache Directories
+.tempmediaStorage/
+scratch/
+
+# API Testing Collections & Client Data
+thunder-collection.json
+thunder-tests/
+*thunder*
+
