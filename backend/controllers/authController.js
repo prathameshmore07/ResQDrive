@@ -63,6 +63,22 @@ const register = async (req, res) => {
             });
         }
 
+        // Check if vehicle license plate already exists for another driver
+        let cleanPlate = "";
+        if (role === "driver" && vehicle && vehicle.licensePlate && vehicle.licensePlate.trim()) {
+            cleanPlate = vehicle.licensePlate.trim().toUpperCase();
+            const existingDriverWithPlate = await Driver.findOne({
+                "vehicle.licensePlate": cleanPlate
+            });
+
+            if (existingDriverWithPlate) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Vehicle license plate "${cleanPlate}" is already registered with another driver account`
+                });
+            }
+        }
+
         // 3. Create user according to role
         let user;
         if (role === "driver") {
@@ -71,7 +87,11 @@ const register = async (req, res) => {
                 email: normalizedEmail,
                 password,
                 phone: cleanPhone || phone.trim(),
-                vehicle: vehicle || {},
+                vehicle: {
+                    make: vehicle && vehicle.make ? vehicle.make.trim() : "",
+                    model: vehicle && vehicle.model ? vehicle.model.trim() : "",
+                    licensePlate: cleanPlate
+                },
                 role: "driver"
             });
         } else {
@@ -109,6 +129,15 @@ const register = async (req, res) => {
             }
         });
     } catch (error) {
+        if (error.code === 11000) {
+            const isPlate = JSON.stringify(error.keyValue || {}).includes("licensePlate");
+            return res.status(400).json({
+                success: false,
+                message: isPlate
+                    ? "Vehicle license plate is already registered with another account"
+                    : "An account with these details already exists"
+            });
+        }
         return res.status(400).json({
             success: false,
             message: error.message || "Failed to register user"

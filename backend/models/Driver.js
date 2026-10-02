@@ -28,7 +28,12 @@ const driverSchema = new mongoose.Schema(
         vehicle: {
             make: { type: String, default: "" },
             model: { type: String, default: "" },
-            licensePlate: { type: String, default: "" }
+            licensePlate: {
+                type: String,
+                trim: true,
+                uppercase: true,
+                default: ""
+            }
         },
         role: {
             type: String,
@@ -38,6 +43,16 @@ const driverSchema = new mongoose.Schema(
     },
     {
         timestamps: true
+    }
+);
+
+// Ensure non-empty vehicle license plate is unique across drivers
+driverSchema.index(
+    { "vehicle.licensePlate": 1 },
+    {
+        unique: true,
+        sparse: true,
+        partialFilterExpression: { "vehicle.licensePlate": { $gt: "" } }
     }
 );
 
