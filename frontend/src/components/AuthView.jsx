@@ -3,6 +3,24 @@ import { api } from '../api';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 import BrandWordmark from './ui/BrandWordmark';
 
+// Auto-format vehicle license plate to standard Indian format: MH-00-EG-0000
+const formatLicensePlate = (input) => {
+  if (!input) return '';
+  const raw = input.replace(/[^A-Za-z0-9]/g, '').toUpperCase().slice(0, 10);
+  const parts = [];
+  if (raw.length > 0) parts.push(raw.slice(0, 2));
+  if (raw.length > 2) parts.push(raw.slice(2, 4));
+  if (raw.length > 4) {
+    if (raw.length <= 6) {
+      parts.push(raw.slice(4));
+    } else {
+      parts.push(raw.slice(4, 6));
+      parts.push(raw.slice(6, 10));
+    }
+  }
+  return parts.join('-');
+};
+
 export default function AuthView({ initialRole = 'driver', initialMode = 'login', onAuthSuccess, onBackToLanding }) {
   const [mode, setMode] = useState(initialMode); // 'login' | 'register'
   const [role, setRole] = useState(initialRole); // 'driver' | 'provider'
@@ -336,7 +354,9 @@ export default function AuthView({ initialRole = 'driver', initialMode = 'login'
                       className="form-input"
                       placeholder="License Plate (e.g. MH-12-AB-1234)"
                       value={licensePlate}
-                      onChange={(e) => setLicensePlate(e.target.value)}
+                      onChange={(e) => setLicensePlate(formatLicensePlate(e.target.value))}
+                      maxLength={13}
+                      style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}
                       required
                     />
                   </div>
